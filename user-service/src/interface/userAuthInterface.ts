@@ -8,6 +8,7 @@ export interface UserSignUp {
 }
 
 
+
 export interface UserLogin {
     email: string;
     password: string;
@@ -21,6 +22,9 @@ export interface tokenPayload {
 }
 
 
-
-
-
+export interface userDisplay {
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string
+}

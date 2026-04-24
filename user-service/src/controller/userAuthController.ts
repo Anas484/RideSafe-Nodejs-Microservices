@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import type { UserLogin, UserSignUp } from "../interface/userAuthInterface.js";
 import bcrypt from "bcrypt";
 import generateToken from "../utils/generateToken.js";
-import type { tokenPayload } from "../interface/userAuthInterface.js";
+import type { tokenPayload, userDisplay } from "../interface/userAuthInterface.js";
 
 const prisma = new PrismaClient();
 
@@ -59,7 +59,26 @@ const signUpUser = async (req: Request, res: Response) => {
             password: encryptedPassword
         }
     });
-    res.status(201).json(createdUser);
+    if (createdUser.role === 'DRIVER') {
+        await prisma.driver.create({
+            data: {
+                userId: createdUser.id
+            }
+        });
+    }else if (createdUser.role === 'PASSENGER') {
+        await prisma.passenger.create({
+            data: {
+                userId: createdUser.id
+            }
+        });
+    }
+    const userDisplay : userDisplay = ({
+        firstName:createdUser.firstName,
+        lastName: createdUser.lastName,
+        email:createdUser.email,
+        role:createdUser.role
+    })
+    res.status(201).json(userDisplay);
 };
 
 
