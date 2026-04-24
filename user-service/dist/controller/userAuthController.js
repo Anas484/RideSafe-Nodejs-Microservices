@@ -50,7 +50,27 @@ const signUpUser = async (req, res) => {
             password: encryptedPassword
         }
     });
-    res.status(201).json(createdUser);
+    if (createdUser.role === 'DRIVER') {
+        await prisma.driver.create({
+            data: {
+                userId: createdUser.id
+            }
+        });
+    }
+    else if (createdUser.role === 'PASSENGER') {
+        await prisma.passenger.create({
+            data: {
+                userId: createdUser.id
+            }
+        });
+    }
+    const userDisplay = ({
+        firstName: createdUser.firstName,
+        lastName: createdUser.lastName,
+        email: createdUser.email,
+        role: createdUser.role
+    });
+    res.status(201).json(userDisplay);
 };
 export { signUpUser, loginUser };
 //# sourceMappingURL=userAuthController.js.map

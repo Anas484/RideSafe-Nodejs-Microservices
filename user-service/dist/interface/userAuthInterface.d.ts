@@ -13,4 +13,10 @@ export interface tokenPayload {
     id: string;
     role: string;
 }
+export interface userDisplay {
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: string;
+}
 //# sourceMappingURL=userAuthInterface.d.ts.map
