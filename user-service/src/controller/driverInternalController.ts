@@ -9,24 +9,32 @@ const prisma = new PrismaClient();
 
 
 
-const checkDriverStatus = async (userId: number) => {
-    const driver = await prisma.user.findUnique({
-        where: {
-            id: userId
-        },
-        select:{
-            driver:{
-                select:{
-                    status: true
+const checkDriverStatus = async (req: Request, res: Response) => {
+    try {
+        const driverId = req.params.id
+        const driver = await prisma.user.findUnique({
+            where: {
+                id: Number(driverId)
+            },
+            select:{
+                driver:{
+                    select:{
+                        status: true
+                    }
                 }
             }
-        }
-    })
-    if (!driver) {
-        console.log("No such driver found")
-        return null
+        })
+        if (!driver) {
+            console.log("No such driver found")
+            return null
     }
-    return driver?.driver?.status
+    res.status(200).json({
+        status: driver?.driver?.status
+    })
+} catch (error) {
+    console.log(error)
+    return null
+}
 }
 
 
@@ -41,8 +49,14 @@ const updateDriverStatusActive = async (req: Request, res: Response) => {
                 status: driverStatus.ACTIVE
             }
         })
+        res.status(200).json({
+            message: "Driver status updated successfully"
+        })
     } catch (error) {
-        
+        console.log(error)
+        res.status(500).json({
+            message: "Internal server error"
+        })
     }
 
 }
@@ -59,7 +73,7 @@ const updateDriverStatusInactive = async (req: Request, res: Response) => {
             }
         })
     } catch (error) {
-        
+        console.log(error)
     }
 
 }
@@ -75,7 +89,7 @@ const updateDriverStatusInRide = async (req: Request, res: Response) => {
             }
         })
     } catch (error) {
-        
+        console.log(error)
     }
 
 }

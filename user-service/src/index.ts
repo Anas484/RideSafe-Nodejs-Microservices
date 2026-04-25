@@ -1,11 +1,19 @@
 import express from 'express'
-import userAuthRoutes from './routes/userAuthRoutes.js'
+import userAuthRoutes from './routes/userAuthRouter.js'
+import userDriverRouter from './routes/userDriverRouter.js'
+import jwtFilterMiddleware from './middleware/jwtFilterMiddleware.js'
+import userDriverInternalRouter from './routes/userInternalRouter.js'
+import roleAccessMiddleware from './middleware/roleAccessMiddleware.js'
 
 const app = express()
 
 app.use(express.json())
 
 app.use('/api/users/auth', userAuthRoutes)
+app.use('/api/users/driver/internal', userDriverInternalRouter)
+app.use('/api/users/driver', jwtFilterMiddleware, roleAccessMiddleware("DRIVER"), userDriverRouter)
+
+
 
 
 app.listen(3000, () => {

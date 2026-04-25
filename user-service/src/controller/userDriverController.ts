@@ -41,3 +41,8 @@ const getMyDriverDetail = async (req :Request, res:Response) => {
     
 }
 
+
+
+export {
+    getMyDriverDetail
+}
