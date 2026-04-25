@@ -7,6 +7,7 @@ import geoCodeRouter from './routes/geoCodeRouter.js';
 
 
 const app = express();
+app.use(express.json());
 
 const startEssentialServices = async () => {
     await connectRedis();
@@ -16,7 +17,7 @@ const startEssentialServices = async () => {
 
 startEssentialServices();
 
-app.use('/api/location/geocode', geoCodeRouter);
+app.use('/api/location/', geoCodeRouter);
 
 app.listen(3002, () => {
     console.log("Server is running on port 3002");
