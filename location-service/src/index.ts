@@ -3,6 +3,7 @@ import { connectRedis } from './config/redisConfig.js';
 import { connectRabbitMQ } from './config/rabbitMQConfig.js';
 import startDriverLocationUpdateConsumer from './utils/driverLocationUpdateConsumer.js';
 import geoCodeRouter from './routes/geoCodeRouter.js';
+import internalDriverRouter from './routes/InternalDriverRouter.js';
 
 
 
@@ -18,6 +19,7 @@ const startEssentialServices = async () => {
 startEssentialServices();
 
 app.use('/api/location/', geoCodeRouter);
+app.use('/api/internal/driver/', internalDriverRouter);
 
 app.listen(3002, () => {
     console.log("Server is running on port 3002");
