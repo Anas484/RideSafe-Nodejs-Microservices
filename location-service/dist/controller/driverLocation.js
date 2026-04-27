@@ -26,6 +26,7 @@ const updateDriverLocation = async () => {
                     await client.set(`${LOCATION_KEY}:${driverId}`, JSON.stringify({ latitude, longitude }), {
                         EX: 100
                     });
+                    await client.geoAdd(LOCATION_KEY, { longitude, latitude }, driverId);
                 }
             }
             catch (error) {

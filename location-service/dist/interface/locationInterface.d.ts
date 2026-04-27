@@ -6,4 +6,9 @@ export interface DriverLocationRequest {
     latitude: number;
     longitude: number;
 }
+export interface DriverLocationQuery {
+    latitude: number;
+    longitude: number;
+    radius: number;
+}
 //# sourceMappingURL=locationInterface.d.ts.map
